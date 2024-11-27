@@ -58,7 +58,7 @@ def poll_result(url, prompt_id):
 def handler(job):
     try:
         # Ensure required params
-        required_params = ["human_image_b64", "garment_image_b64", "sam_prompt", "sam_threshold", "idm_vton_garment_description", "idm_vton_negative_prompt", "width", "height", "num_inference_steps", "guidance_scale", "strength", "seed"]
+        required_params = ["human_image_b64", "garment_image_b64", "sam_prompt", "sam_threshold", "mask_grow", "mixed_precision", "seed", "steps", "cfg"]
         for param in required_params:
             if param not in job['input']:
                 return {"status": 400, "message": f"Missing required parameter '{param}'"}
@@ -68,14 +68,11 @@ def handler(job):
         garment_image_b64 = job['input']["garment_image_b64"]
         sam_prompt = job['input']["sam_prompt"]
         sam_threshold = float(job['input']["sam_threshold"])
-        idm_vton_garment_description = job['input']["idm_vton_garment_description"]
-        idm_vton_negative_prompt = job['input']["idm_vton_negative_prompt"]
-        width = int(job['input']["width"])
-        height = int(job['input']["height"])
-        num_inference_steps = int(job['input']["num_inference_steps"])
-        guidance_scale = float(job['input']["guidance_scale"])
-        strength = float(job['input']["strength"])
+        mask_grow = int(job['input']["mask_grow"])
+        mixed_precision = job['input']["mixed_precision"]
         seed = int(job['input']["seed"])
+        steps = int(job['input']["steps"])
+        cfg = float(job['input']["cfg"])
 
         # Save b64 images 
         human_image_name = f"human_{generate_random_seed()}.png" 
@@ -87,21 +84,17 @@ def handler(job):
             workflow = json.load(file)
             
         # Set workflow values
-        workflow["14"]["inputs"]["image"] = human_image_name
-        workflow["15"]["inputs"]["image"] = garment_image_name
+        workflow["3"]["inputs"]["image"] = human_image_name
+        workflow["4"]["inputs"]["image"] = garment_image_name
         
-        workflow["29"]["inputs"]["prompt"] = sam_prompt
-        workflow["29"]["inputs"]["threshold"] = sam_threshold
+        workflow["10"]["inputs"]["prompt"] = sam_prompt
+        workflow["10"]["inputs"]["threshold"] = sam_threshold
         
-        workflow["35"]["inputs"]["garment_description"] = idm_vton_garment_description
-        workflow["35"]["inputs"]["negative_prompt"] = idm_vton_negative_prompt
-        workflow["35"]["inputs"]["seed"] = seed
-        workflow["35"]["inputs"]["width"] = width
-        workflow["35"]["inputs"]["height"] = height
-        workflow["35"]["inputs"]["num_inference_steps"] = num_inference_steps
-        workflow["35"]["inputs"]["guidance_scale"] = guidance_scale
-        workflow["35"]["inputs"]["strength"] = strength
-        
+        workflow["2"]["inputs"]["mask_grow"] = mask_grow
+        workflow["2"]["inputs"]["mixed_precision"] = mixed_precision
+        workflow["2"]["inputs"]["seed"] = seed
+        workflow["2"]["inputs"]["steps"] = steps
+        workflow["2"]["inputs"]["cfg"] = cfg
         
         url = "http://127.0.0.1:8188"
         check_server(url)

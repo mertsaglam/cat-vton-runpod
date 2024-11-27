@@ -24,7 +24,31 @@ RUN pip install -r requirements.txt && pip cache purge
 # Clone custom Nodes
 RUN git -C ./custom_nodes clone --depth 1 https://github.com/storyicon/comfyui_segment_anything
 RUN git -C ./custom_nodes clone --depth 1 https://github.com/Fannovel16/comfyui_controlnet_aux
-RUN git -C ./custom_nodes clone --depth 1 https://github.com/TemryL/ComfyUI-IDM-VTON
+RUN git -C ./custom_nodes clone --depth 1 https://github.com/chflame163/ComfyUI_CatVTON_Wrapper
+#we need to install the requirements of the catVTON wrapper
+RUN pip install -r ./custom_nodes/ComfyUI_CatVTON_Wrapper/requirements.txt
+
+
+# Download models
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/risunobushi/catvton_model_lib/resolve/main/DensePose/Base-DensePose-RCNN-FPN.yaml' -d './models/CatVTON/DensePose' -o 'Base-DensePose-RCNN-FPN.yaml'
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/risunobushi/catvton_model_lib/resolve/main/DensePose/densepose_rcnn_R_50_FPN_s1x.yaml' -d './models/CatVTON/DensePose' -o 'densepose_rcnn_R_50_FPN_s1x.yaml'
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/risunobushi/catvton_model_lib/resolve/main/DensePose/model_final_162be9.pkl' -d './models/CatVTON/DensePose' -o 'model_final_162be9.pkl'
+
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/risunobushi/catvton_model_lib/resolve/main/SCHP/exp-schp-201908261155-lip.pth' -d './models/CatVTON/SCHP' -o 'exp-schp-201908261155-lip.pth'
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/risunobushi/catvton_model_lib/resolve/main/SCHP/exp-schp-201908301523-atr.pth' -d './models/CatVTON/SCHP' -o 'exp-schp-201908301523-atr.pth'
+
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/risunobushi/catvton_model_lib/resolve/main/dresscode-16k-512/attention/model.safetensors' -d './models/CatVTON/dresscode-16k-512/attention' -o 'model.safetensors'
+
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/risunobushi/catvton_model_lib/resolve/main/mix-48k-1024/attention/model.safetensors' -d './models/CatVTON/mix-48k-1024/attention' -o 'model.safetensors'
+
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/risunobushi/catvton_model_lib/resolve/main/sd-vae-ft-mse/config.json' -d './models/CatVTON/sd-vae-ft-mse' -o 'config.json'
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/risunobushi/catvton_model_lib/resolve/main/sd-vae-ft-mse/diffusion_pytorch_model.safetensors' -d './models/CatVTON/sd-vae-ft-mse' -o 'diffusion_pytorch_model.safetensors'
+
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/risunobushi/catvton_model_lib/resolve/main/stable-diffusion-inpainting/scheduler/scheduler_config.json' -d './models/CatVTON/stable-diffusion-inpainting/scheduler' -o 'scheduler_config.json'
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/risunobushi/catvton_model_lib/resolve/main/stable-diffusion-inpainting/unet/config.json' -d './models/CatVTON/stable-diffusion-inpainting/unet' -o 'config.json'
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/risunobushi/catvton_model_lib/resolve/main/stable-diffusion-inpainting/unet/diffusion_pytorch_model.safetensors' -d './models/CatVTON/stable-diffusion-inpainting/unet' -o 'diffusion_pytorch_model.safetensors'
+
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/risunobushi/catvton_model_lib/resolve/main/vitonhd-16k-512/attention/model.safetensors' -d './models/CatVTON/vitonhd-16k-512/attention' -o 'model.safetensors'
 
 # Sam
 RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/lkeab/hq-sam/resolve/main/sam_hq_vit_h.pth' -d './models/sams' -o 'sam_hq_vit_h.pth'
