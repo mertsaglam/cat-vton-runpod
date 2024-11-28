@@ -1,0 +1,160 @@
+{
+  "2": {
+    "inputs": {
+      "mask_grow": 25,
+      "mixed_precision": "fp32",
+      "seed": 348411207779584,
+      "steps": 45,
+      "cfg": 3,
+      "image": [
+        "3",
+        0
+      ],
+      "mask": [
+        "10",
+        1
+      ],
+      "refer_image": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "CatVTONWrapper",
+    "_meta": {
+      "title": "CatVTON Wrapper"
+    }
+  },
+  "3": {
+    "inputs": {
+      "image": "human.webp",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Person and Mask the area here"
+    }
+  },
+  "4": {
+    "inputs": {
+      "image": "garment.webp",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Garment Here"
+    }
+  },
+  "5": {
+    "inputs": {
+      "images": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "VTON Result"
+    }
+  },
+  "6": {
+    "inputs": {
+      "images": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Original Garment Reference"
+    }
+  },
+  "9": {
+    "inputs": {
+      "model_name": "GroundingDINO_SwinT_OGC (694MB)"
+    },
+    "class_type": "GroundingDinoModelLoader (segment anything)",
+    "_meta": {
+      "title": "GroundingDinoModelLoader (segment anything)"
+    }
+  },
+  "10": {
+    "inputs": {
+      "prompt": "tshirt",
+      "threshold": 0.3,
+      "sam_model": [
+        "11",
+        0
+      ],
+      "grounding_dino_model": [
+        "9",
+        0
+      ],
+      "image": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "GroundingDinoSAMSegment (segment anything)",
+    "_meta": {
+      "title": "GroundingDinoSAMSegment (segment anything)"
+    }
+  },
+  "11": {
+    "inputs": {
+      "model_name": "sam_hq_vit_h (2.57GB)"
+    },
+    "class_type": "SAMModelLoader (segment anything)",
+    "_meta": {
+      "title": "SAMModelLoader (segment anything)"
+    }
+  },
+  "16": {
+    "inputs": {
+      "images": [
+        "10",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "18": {
+    "inputs": {
+      "mask": [
+        "10",
+        1
+      ]
+    },
+    "class_type": "MaskToImage",
+    "_meta": {
+      "title": "Convert Mask to Image"
+    }
+  },
+  "19": {
+    "inputs": {
+      "images": [
+        "18",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "20": {
+    "inputs": {
+      "filename_prefix": "try_on",
+      "images": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  }
+}
