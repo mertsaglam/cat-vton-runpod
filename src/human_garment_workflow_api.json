@@ -2,8 +2,8 @@
   "2": {
     "inputs": {
       "mask_grow": 25,
-      "mixed_precision": "fp16",
-      "seed": 888769399447474,
+      "mixed_precision": "fp32",
+      "seed": 348411207779584,
       "steps": 45,
       "cfg": 3,
       "image": [
@@ -26,7 +26,7 @@
   },
   "3": {
     "inputs": {
-      "image": "00035_00.jpg",
+      "image": "human.webp",
       "upload": "image"
     },
     "class_type": "LoadImage",
@@ -36,7 +36,7 @@
   },
   "4": {
     "inputs": {
-      "image": "04743_00.jpg",
+      "image": "garment.webp",
       "upload": "image"
     },
     "class_type": "LoadImage",
@@ -142,6 +142,19 @@
     "class_type": "PreviewImage",
     "_meta": {
       "title": "Preview Image"
+    }
+  },
+  "20": {
+    "inputs": {
+      "filename_prefix": "try_on",
+      "images": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
     }
   }
 }

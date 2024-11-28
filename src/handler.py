@@ -51,7 +51,7 @@ def poll_result(url, prompt_id):
         response = requests.request("GET",f"{url}/history")
         history = response.json()
         completed = prompt_id in history
-    result_image_name = history[prompt_id]["outputs"]["21"]["images"][0]["filename"]
+    result_image_name = history[prompt_id]["outputs"]["20"]["images"][0]["filename"]
 
     return result_image_name
 

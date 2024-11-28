@@ -60,9 +60,6 @@ RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.c
 # Densepose
 RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M 'https://huggingface.co/LayerNorm/DensePose-TorchScript-with-hint-image/resolve/main/densepose_r50_fpn_dl.torchscript' -d './custom_nodes/comfyui_controlnet_aux/ckpts/LayerNorm/DensePose-TorchScript-with-hint-image' -o 'densepose_r50_fpn_dl.torchscript'
 
-# IDM-VTON models
-RUN cd ./custom_nodes/ComfyUI-IDM-VTON && python install.py
-
 # Custom nodes requirements
 COPY --chmod=755 src/* ./
 RUN ./install_custom_node_dependencies.sh
